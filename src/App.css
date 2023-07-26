@@ -1,0 +1,54 @@
+/* * {
+    background-color: aliceblue;
+} */
+
+FetchAPI {
+  padding: 3%;
+  background-color: orange;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 30px;
+  background-color: rgb(155, 155, 155);
+}
+
+#download_btn {
+  background-color: rgb(197, 226, 251);
+  border-radius: 5%;
+  border-color: aquamarine;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px;
+}
+
+.icon {
+  width: 40px;
+  margin-left: 0px;
+}
+
+/* #card {
+  display: flex;
+  flex-direction:column;
+  padding: 16%;
+  margin: 5%;
+  width:auto;
+  height:auto;
+  background-color: yellow;
+  border-radius: 1%;
+  text-align:left;
+  scroll-behavior: smooth;
+} */
+
+.description-responsive {
+  height: 20vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
