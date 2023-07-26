@@ -2,12 +2,13 @@ import { useState, useEffect } from "react";
 import ResponsiveGrid from "./DataSkeleton";
 
 // import {RenderGenres} from "./ResponsiveGrid";
-// import BackToTop from "./BackToTop";
+import BackToTop from "./BackToTop";
 import '../App.css'
+// import SearchBar from "./SearchBar";
 
 
 export default function FetchAPI() {
-  const [preview, setpreview] = useState(null);
+  const [preview, setPreview] = useState(null);
 
   const getApi = () => {
     fetch("https://podcast-api.netlify.app/shows")
@@ -15,28 +16,18 @@ export default function FetchAPI() {
       .then((data) => {
         const mapData = data.map((item) => {
           return (
-            // <div className="card">
-            //   <img src={item.image} className="pod_img" />
-            //   <div className="card-content">
-            //     <h2 className="card-title">{item.title}</h2>
-            //     <h4>{item.genres}</h4>
-            //     <p className="card-description">
-            //       {item.description}
-            //       </p>
-            //   </div>
-            // </div>
-
             <>
+            {/* <SearchBar/> */}
               <ResponsiveGrid 
               {...item} 
               /* genres = {GetGenreStrings(genres)} */
               />
-              {/* <BackToTop /> */}
+              <BackToTop />
               
             </>
           );
         });
-        setpreview(mapData);
+        setPreview(mapData);
       });
   };
 
@@ -44,5 +35,5 @@ export default function FetchAPI() {
     getApi();
   }, []);
 
-  return <div>{preview}</div>;
+  return <div key={preview}>{preview}</div>;
 }
