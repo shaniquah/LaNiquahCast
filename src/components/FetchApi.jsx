@@ -18,10 +18,13 @@ export default function FetchAPI() {
           return (
             <>
             {/* <SearchBar/> */}
+              <div id="card">
               <ResponsiveGrid 
-              {...item} 
-              /* genres = {GetGenreStrings(genres)} */
-              />
+                key={item.id}
+                {...item} 
+                /* genres = {GetGenreStrings(genres)} */
+                />
+              </div>
               <BackToTop />
               
             </>

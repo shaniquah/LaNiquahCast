@@ -1,10 +1,21 @@
 /* * {
     background-color: aliceblue;
 } */
+ #card {
+  /* display: table-row; */
+    /* margin: 3%;
+    padding: 5%;
+    width: 80%;
+    background-color: orange; */
 
-FetchAPI {
-  padding: 3%;
-  background-color: orange;
+ 
+  }
+
+  #card > ::-webkit-scrollbar {
+    display: inline;
+  }
+@media only screen and (min-width:600px) {
+ 
 }
 
 .footer {
