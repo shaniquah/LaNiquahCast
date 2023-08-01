@@ -8,8 +8,9 @@ export default function Seasons(props) {
     //   <img src={props.seasons.image} className="season_cover_img" />
     // </div>
 
-    <div>
+    <div className="seasons_card" /* onClick={props.clicked} */>
         <h1>{props.title}</h1>
+        <h3>{props.episodes} Episodes</h3>
         <img src={props.image} className="season_cover_img" />
   </div>
   );

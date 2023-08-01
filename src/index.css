@@ -85,7 +85,7 @@ body {
   border-bottom: solid aqua;
 }
  */
-.pod_img {
+.pod_img, .season_cover_img {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
