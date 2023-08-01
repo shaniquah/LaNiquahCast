@@ -10,8 +10,7 @@ import '../App.css'
 export default function FetchAPI() {
   const [data, setData] = useState(null)
   const [preview, setPreview] = useState("");
-  const [ShowSeasonsState, setshowSeasonsState] = useState("");
-  const [nn, setnn] = useState("");
+  const [nnnnnnn, setnnnnnnn] = useState(null);
 
   const getApi = () => {
     fetch("https://podcast-api.netlify.app/shows")
@@ -36,21 +35,20 @@ export default function FetchAPI() {
                   
                   {console.log(mm.title)}
                  return (
-                    <>                    
+                    <>
+                    
                       <Seasons
-                      title={mm.title}
+                       title={mm.title}
+                       image = {mm.image}
                     />
                 </>
                  ) 
                 })
 
-                setnn(seasM)
+                setnnnnnnn(seasM)
               })
             
             }
-            return (
-              <div>{nn}</div>
-            )
           }
           return (
             <>
@@ -59,7 +57,7 @@ export default function FetchAPI() {
               <ResponsiveGrid 
                 key={item.id}
                 {...item} 
-                clicked={() => setshowSeasonsState(showSeasons(item.id))}
+                clicked={() => showSeasons(item.id)}
                 />
               </div>
               <BackToTop />
@@ -77,7 +75,7 @@ export default function FetchAPI() {
 console.log()
   return (
     <>
-      {ShowSeasonsState}
+      {nnnnnnn}
       <div key={preview}>{preview}</div>
     </>
   )
