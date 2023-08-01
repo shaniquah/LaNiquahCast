@@ -1,20 +1,9 @@
 /* eslint-disable react/prop-types */
-import { experimentalStyled as styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
 // import { genreMap } from "./GetGenreStrings";
 import "../App.css";
-import { React, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { genreMap } from "./GetGenreStrings";
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(2),
-  textAlign: "justified",
-  color: theme.palette.text.secondary,
-}));
 
 export default function ResponsiveGrid(props) {
 
@@ -22,21 +11,27 @@ export default function ResponsiveGrid(props) {
   useEffect(() => {
     
 
-    if (genres.value === genreMap.key) {
-      // console.log(g)
-      setGenres((prevState) => [...prevState]);
+    if (genres.value === genreMap.value) {
+      setGenres(prevState => [...prevState]);
+      // console.log(genres[0])
+      genres[0].map(genreId => genreMap[genreId])
     }
   }, [])
 
+  // if (genreMap[genreId] > 1) {
+  //   genreMap[genreId] | genreMap[genreId]
+  // }
+
   return (
-    <div>
+    <div className="card" onClick={props.clicked}>
       <h2 className="titles">{props.title}</h2>
 
       <img src={props.image} className="pod_img" />
-      <p>Genre(s): {props.genres}</p>
+      <p>Genre(s): {props.genres.map(genreId => genreMap[genreId])}
+      {}</p>
       <p className="info">{props.seasons} Seasons</p>
       <p className="info">
-        Last Released:{" "}
+        Last Updated:{" "}
         {new Date(props.updated).toLocaleDateString("en-ZA", {
           year: "numeric",
           month: "short",

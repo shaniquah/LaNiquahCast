@@ -4,14 +4,14 @@ import SearchBar from "./components/SearchBar";
 import FetchAPI from "./components/FetchApi";
 import Footer from "./components/Footer";
 import "./App.css";
+// import SortBy from "./components/Sort";
 
 function App() {
   return (
     <>
       <Navbar />
-      <span>
-        <SearchBar />
-      </span>
+      <SearchBar />
+      {/* <SortBy /> */}
       <br />
       <FetchAPI />
       <br />

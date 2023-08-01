@@ -1,21 +1,50 @@
 /* * {
     background-color: aliceblue;
 } */
- #card {
-  /* display: table-row; */
-    /* margin: 3%;
-    padding: 5%;
-    width: 80%;
-    background-color: orange; */
 
- 
-  }
+.search_btn {
+  display: inline-block;
+  justify-content: center;
+  align-content: center;
+  margin-top: 1.5%;
+  background-color: transparent;
+  font-size: 40px;
+  margin-left: 1%;
+  border: none;
+}
 
-  #card > ::-webkit-scrollbar {
-    display: inline;
+.search_btn:hover {
+  transform: scale(1.5);
+}
+
+.search_btn:active {
+  transform: scale(2);
+  transform: translate(2, 3);
+}
+
+#card {
+  display: grid;
+  margin: 3%;
+  padding: 5%;
+  width: 80%;
+  background-color: orange;
+}
+
+.card > ::-webkit-scrollbar {
+  display: inline;
+}
+
+@media only screen and (min-width: 600px) {
+  .card {
+    display: flex;
+    flex-direction: column;
   }
-@media only screen and (min-width:600px) {
- 
+}
+
+@media screen and (min-width: 700px) (max-width: 1000px) {
+  .card {
+    display: grid;
+  }
 }
 
 .footer {
