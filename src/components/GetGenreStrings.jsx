@@ -1,15 +1,6 @@
-// export const genreMap = [
-//     { genreName: "Personal Growth", key: 1 },
-//     { genreName: "True Crime and Investigative Journalism", key: 2 },
-//     { genreName: "History", key: 3 },
-//     { genreName: "Comedy", key: 4 },
-//     { genreName: "Entertainment", key: 5 },
-//     { genreName: "Business", key: 6 },
-//     { genreName: "Fiction", key: 7 },
-//     { genreName: "News", key: 8 },
-//     { genreName: "Kids and Family", key: 9 },
-//   ];
-
+/* The code is exporting a constant variable called `genreMap`. This variable is an object that maps
+numbers to genre names. Each number represents a genre, and the corresponding value is the name of
+that genre. This can be used to easily access the name of a genre based on its number. */
 export const genreMap = {
   1: "Personal Growth",
   2: "True Crime and Investigative Journalism",
