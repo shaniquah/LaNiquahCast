@@ -26,7 +26,7 @@ setSortedItems(sortedItems)
   a `<div>` element that contains a button and an unordered list (`<ul>`). */
   return (
     <div>
-      <button onClick={sortHandler}>A - Z</button>
+      <button onClick={sortHandler}>Sort</button>
       <ul>
         {sortedItems.map((item, index) => (
           <li key={index}>{item}</li>

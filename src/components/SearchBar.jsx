@@ -4,68 +4,72 @@ These modules are used in the `SearchBar` component to render a search icon, a t
 manage state respectively. */
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
-import { useState } from "react";
-// import FetchAPI, {preview} from "./FetchApi";
+import { InputAdornment } from "@mui/material";
+import { useEffect, useState } from "react";
+import Fuse from "fuse.js";
 
-/* The code defines a React functional component called `SearchBar`. It is a search bar component that
-allows users to enter a search query and displays the search results. */
+/**
+ * The SearchBar component is a React component that allows users to search for podcasts and displays
+ * the search results.
+ * @returns The SearchBar component is returning a form with an input field for searching, and a div to
+ * display the search results. The search results are mapped over and displayed as individual result
+ * items, each containing the title and image of the podcast.
+ */
 export default function SearchBar() {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [fuse, setFuse] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
 
-  /**
-   * The inputChangeHandler function updates the searchQuery state with the value of the input field.
-   */
-  const inputChangeHandler = (event) => {
-    setSearchQuery(event.target.value);
+  useEffect(() => {
+    fetch("https://podcast-api.netlify.app/shows")
+      .then((res) => res.json())
+      .then((data) => {
+        const newFuse = new Fuse(data, {
+          keys: ["id", "title"],
+        });
+        setFuse(newFuse);
+      });
+  }, []);
+
+  const handleSearch = (event) => {
+    const search = event.target.value;
+    if (fuse) {
+      const results = fuse.search(search);
+      setSearchResults(results.map((result) => result.item));
+    }
   };
 
-  /**
-   * The searchHandler function filters an array called preview based on a search query and updates the
-   * search results.
-   */
-  const searchHandler = (event) => {
-    event.preventDefault();
-
-    const results = preview.filter((item) =>
-      item.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setSearchResults(results);
-    console.log(searchQuery);
-  };
-
-  /* The `return` statement returns the JSX (JavaScript XML) code that defines the 
-  structure and content of the component's UI. */
   return (
-    <div>
-      <TextField
-        variant="outlined"
-        placeholder="Search"
-        type="text"
-        value={searchQuery}
-        name="search"
-        onChange={inputChangeHandler}
-        onKeyDown={(event) => {
-          if (event.key === "Enter" || event.key === "click") {
-            searchHandler();
-          }
-        }}
-        InputProps={{
-          startAdornment: (
-            <SearchIcon sx={{ color: "action.active", mr: 2, my: 0.5 }} />
-          ),
-        }}
-      />
+    <>
+      <form className="search_form">
+        {/* Use the TextField component from MUI for styling */}
+        <TextField
+          type="search"
+          aria-label="Search"
+          onChange={handleSearch}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon sx={{ color: "action.active", mr: 2, my: 0.5 }} />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </form>
 
-      <button onClick={searchHandler} className="search_btn">
-        <SearchIcon sx={{ color: "black", mr: 2, my: 0.5 }} />
-      </button>
-
-      <ul>
-        {searchResults.map((result, index) => (
-          <li key={index}>{result}</li>
-        ))}
-      </ul>
-    </div>
+      <div className="search_results_container">
+        <div className="search_results">
+          {searchResults.map((result) => (
+            <div key={result.id} className="result_item">
+              <h2 className="result_title">{result.title}</h2>
+              <img
+                src={result.image}
+                className="result_pod_img"
+                alt={`Podcast ${result.title}`}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
   );
 }

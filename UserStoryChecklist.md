@@ -10,12 +10,6 @@
 
 ✅ All metatag information has been created and added via https://metatags.io/ (You are welcome to use any free image on https://unsplash.com/). Be mindful to manually replace all URL values (especially image URL) to absolute Netlify URL values (you will need to deploy to Netlify first)
 
-### SCENARIO 2: ENDPOINTS AND LOADING STATES
-
-✅ There is a loading state while initial data is being loaded
-
-✅ There is a loading state while new data is being loaded
-
 
 ### SCENARIO 5: SEASONS PREVIEW
 
@@ -63,17 +57,11 @@
 
 ### SCENARIO 9: AUDIO SETTINGS AND ACCOUNT RESET
 
-✅ Audio player is always visible, so the user can listen to episodes while they browse
-
 ✅ User is prompted to confirm they want to close the page when audio is playing
 
 ✅ App remembers which show and episode the user listened to last when returning to the platform
 
 ✅ App remembers which shows and episodes the user listened to all the way through
-
-✅ App remembers the timestamp where the user stopped listening within a 10-second accuracy period of closing
-
-✅ App remembers and shows the timestamp progress of any episode the user has started listening to
 
 ✅ User can "reset" all their progress, effectively removing their listening history
 
@@ -88,7 +76,23 @@
 ✅ Users can share their favourites as a publicly accessible URL
 
 
-## DONE: 15 User Stories
+## DONE: 20 User Stories
+
+### SCENARIO 9: AUDIO SETTINGS AND ACCOUNT RESET
+
+✅ Audio player is always visible, so the user can listen to episodes while they browse✅ Audio player is always visible, so the user can listen to episodes while they browse
+
+✅ App remembers the timestamp where the user stopped listening within a 10-second accuracy period of closing
+
+✅ App remembers and shows the timestamp progress of any episode the user has started listening to
+
+
+### SCENARIO 2: ENDPOINTS AND LOADING STATES
+
+✅ There is a loading state while initial data is being loaded
+
+✅ There is a loading state while new data is being loaded
+
 
 ### SCENARIO 2: ENDPOINTS AND LOADING STATES
 

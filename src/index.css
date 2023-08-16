@@ -4,7 +4,55 @@
 
 body {
   margin: 0;
+  height: fit-content;
+  background-color: grey;
+}
+
+#root {
+  margin: 0;
+  height: 100vh;
+  background-image: linear-gradient(to bottom, black, rgb(173, 173, 173), grey);
+}
+
+.home {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-weight: relative;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: relative;
+}
+
+.form > input {
+  border-color: transparent;
+  border-bottom-color: whitesmoke;
+  padding: 10px 20px;
+  width: 50%;
+}
+
+.home_login > h1 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-items: center;
+  flex-wrap: nowrap;
+  background-image: linear-gradient(to right, rgb(255, 121, 228), aqua);
+}
+
+.login, .signup {
   background-color: aquamarine;
+  border-radius: 5%;
+  border-color: transparent;
+  padding: 10px 20px;
+  width: 50%;
+  margin-bottom: 0%;
+  align-self: center;
 }
 
 .navbar {
@@ -14,7 +62,12 @@ body {
   padding: 10px;
   margin: 0px;
   background-color: white;
-  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.653), rgba(0, 0, 0, 0.959),black);
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.653),
+    rgba(0, 0, 0, 0.959),
+    black
+  );
 }
 
 .logo {
@@ -85,7 +138,8 @@ body {
   border-bottom: solid aqua;
 }
  */
-.pod_img, .season_cover_img {
+.pod_img,
+.season_cover_img {
   display: flex;
   flex-wrap: wrap;
   width: 100%;

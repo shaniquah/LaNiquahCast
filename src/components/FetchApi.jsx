@@ -3,25 +3,24 @@ import { useState, useEffect } from "react";
 import ResponsiveGrid from "./DataSkeleton";
 import Seasons from "./Seasons";
 import BackToTop from "./BackToTop";
-import supabase from "../config/supabaseClient";
 import "../App.css";
 import Loading from "./Loading";
-// import SearchBar from "./SearchBar";
+import supabase from "../config/supabaseClient";
+import SortBy from "./Sort";
 
 /* The code defines a React functional component called `
 `. It is responsible for fetching data
 from an API and rendering it on the screen. */
 export default function FetchAPI() {
-  console.log(supabase);
-
   const [isLoading, setIsLoading] = useState(true);
 
   /* These lines of code are using the `useState` hook from React to declare and initialize state
   variables. */
-  const [data, setData] = useState(null);
+  const [datar, setData] = useState(null);
   const [preview, setPreview] = useState("");
   const [seasonRender, setSeasonRender] = useState(null);
   const [episodesRender, setEpisodesRender] = useState(null);
+  const [sortOption, setSortOption] = useState("a-z");
 
   /* The `getApi` function is responsible for fetching data from the API endpoint
   "https://podcast-api.netlify.app/shows". It uses the `fetch` function to make a GET request to the
@@ -37,6 +36,7 @@ export default function FetchAPI() {
       fetched from the API. */
       .then((data) => {
         setData(data);
+        setIsLoading(false);
 
         /* The code block is mapping over the `data` array and returning JSX elements for each item in
        the array. */
@@ -53,16 +53,12 @@ export default function FetchAPI() {
                   const seasM = seas.map((sm) => {
                     return (
                       <>
-                        {isLoading ? (
-                          <Loading />
-                        ) : (
-                          <Seasons
-                            title={sm.title}
-                            episodes={sm.episodes.length}
-                            image={sm.image}
-                            clicked={() => displayEps(sm)}
-                          />
-                        )}
+                        <Seasons
+                          title={sm.title}
+                          episodes={sm.episodes.length}
+                          image={sm.image}
+                          clicked={() => displayEps(sm)}
+                        />
                       </>
                     );
                   });
@@ -78,21 +74,38 @@ export default function FetchAPI() {
            * audio player.
            */
           function displayEps(fetched) {
+            console.log(fetched);
             const eps = fetched.episodes.map((epsItem) => {
               return (
                 <>
-                  {isLoading ? (
-                    <Loading />
-                  ) : (
-                    <div className="episodes_card" key={epsItem.id}>
-                      <h1>{epsItem.title}</h1>
-                      <h3>Episode {epsItem.episode}</h3>
-                      <p>{epsItem.description}</p>
-                      <audio controls className="audio_bar">
-                        <source src={epsItem.file} type="audio/ogg" />
-                      </audio>
-                    </div>
-                  )}
+                  <div className="episodes_card" key={epsItem.id}>
+                    <h1>{epsItem.title}</h1>
+                    <h3>Episode {epsItem.episode}</h3>
+                    <button
+                      onClick={() => {
+                        const addFave = async () => {
+                          const { data, error } = await supabase
+                            .from("Favorites")
+                            .insert({
+                              title: epsItem.title,
+                              file: epsItem.file,
+                            });
+
+                          // const toggleFaves = () => {
+                          //   if (c)
+                          // }
+                        };
+                        addFave();
+                      }}
+                    >
+                      Add to Faves
+                    </button>
+                    {/* <img  width={30px} src="../src/assets/heart.png"/> */}
+                    <p>{epsItem.description}</p>
+                    <audio controls className="audio_bar">
+                      <source src={epsItem.file} type="audio/ogg" />
+                    </audio>
+                  </div>
                 </>
               );
             });
@@ -100,40 +113,54 @@ export default function FetchAPI() {
             setEpisodesRender(eps);
           }
 
-          /**
-           * The function `handleSort` sorts an array called `preview` in alphabetical order and
-           * updates the state variable `preview`, and if a condition is met, it also sorts the array
-           * in reverse alphabetical order.
-           */
           const handleSort = () => {
-            const sortedAZ = [...preview].sort((a, b) =>
-              a.title.localeCompare(b)
+            const sortPreview = [...preview].sort((a, b) => {
+              if (sortOption === "a-z") {
+                return a.title.localeCompare(b.title);
+              } else if (sortOption === "z-a") {
+                return b.title.localeCompare(a.title);
+              } else if (sortOption === "dateAsc") {
+                return new Date(a.updated) - new Date(b.updated);
+              } else if (sortOption === "dateDesc") {
+                return new Date(b.updated) - new Date(a.updated);
+              }
+            });
+            
+            setPreview(sortPreview);
+            
+            return (
+              <>
+                <div>
+                  <select value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
+                    <option value="az">Sort A-Z</option>
+                    <option value="za">Sort Z-A</option>
+                    <option value="ascDate">Sort Ascending by Date</option>
+                    <option value="descDate">Sort Descending by Date</option>
+                  </select>
+                  <SortBy handleSort={preview} />
+                  {preview}
+                  <BackToTop />
+                </div>
+              </>
             );
-            const sortedZA = [...preview].sort((a, b) => b - a);
-            setPreview(sortedAZ);
-            if (sortedAZ === true && event === true) {
-              setPreview(sortedZA);
-            }
+
+            
           };
 
           /* The `return` statement is returning JSX elements that will be rendered on the screen. */
           return (
             <>
-              {isLoading ? (
-                <Loading />
-              ) : (
-                <>
-                  <div id="card">
-                    <ResponsiveGrid
-                      handleSort={handleSort}
-                      key={item.id}
-                      {...item}
-                      clicked={() => showSeasons(item.id)}
-                    />
-                  </div>
-                  <BackToTop />
-                </>
-              )}
+              <>
+                <div id="card">
+                  <ResponsiveGrid
+                    handleSort={handleSort}
+                    key={item.id}
+                    {...item}
+                    clicked={() => showSeasons(item.id)}
+                  />
+                </div>
+                <BackToTop />
+              </>
             </>
           );
         });
@@ -142,23 +169,46 @@ export default function FetchAPI() {
       });
   };
 
+  // function example() {
+  //   if (datar) {
+  //     const mapData = datar.map((item) => {
+  //       return (
+  //         <>
+  //           <>
+  //             <div id="card">
+  //               <ResponsiveGrid
+  //                 // handleSort={handleSort}
+  //                 key={item.id}
+  //                 {...item}
+  //                 // clicked={() => showSeasons(item.id)}
+  //               />
+  //             </div>
+  //             <BackToTop />
+  //           </>
+  //         </>
+  //       );
+  //     });
+  //   }
+
+  //   // setPreview(mapData);
+  // }
+
   /* The `useEffect` hook is used to fetch data from the API by calling the `getApi` function when the component is mounted. */
   useEffect(() => {
     getApi();
-    setIsLoading(false);
-  }, []);
+    // setIsLoading(true);
+    // example();
+    console.log(datar);
+  });
 
   /* The `return` statement is returning JSX elements that will be rendered on the screen. */
   return (
     <>
-      {" "}
-      {isLoading ? (
-        <Loading />
-      ) : (
-        { episodesRender } && { seasonRender } && (
-          <div key={preview.id}>{preview}</div>
-        )
-      )}
+      {!isLoading ? episodesRender : <Loading />}{" "}
+      
+      {!isLoading ? seasonRender : <Loading />}
+      {!isLoading ? <div key={preview.id}>{preview}</div> : <Loading />}
+      {/* {example} */}
     </>
   );
 }

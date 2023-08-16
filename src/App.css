@@ -2,6 +2,50 @@
     background-color: aliceblue;
 } */
 
+input {
+  color: white;
+  background-color: transparent;
+}
+
+.nnn{
+  color: white;
+}
+
+.search_results_container {
+  overflow-x: auto;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 5% 0;
+  padding: 5%;
+  background-color: rgba(161, 245, 252, 0.43);
+}
+
+.search_results {
+  display: flex;
+  flex-direction: row;
+  gap: 20px; /* Adjust the gap between search result items */
+}
+
+.result_item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.result_title {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.result_pod_img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+
 .search_btn {
   display: inline-block;
   justify-content: center;
@@ -11,6 +55,7 @@
   font-size: 40px;
   margin-left: 1%;
   border: none;
+  color: aliceblue;
 }
 
 .search_btn:hover {
@@ -22,17 +67,131 @@
   transform: translate(2, 3);
 }
 
+.carousel_heading {
+  display: inline;
+  padding-left: 5%;
+  margin-bottom: 10%;
+  padding-bottom: 20%;
+}
+
+/* #carousel_container {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  background-color: #f5f5f5;
+} */
+
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-250px * 7));
+  }
+}
+
+#carousel_container {
+  display: flex;
+  background: grey;
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.953);
+  /* height: 100px; */
+  margin: auto;
+  /* overflow-x: auto; */
+  overflow: hidden;
+  position: relative;
+  /* width: 960px; */
+  padding: 20px;
+}
+
+#carousel_container::before,
+#carousel_container::after {
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.848) 0%, rgba(255, 255, 255, 0) 100%);
+  content: "";
+  height: 500px;
+  position: absolute;
+  width: 200px;
+  z-index: 2;
+}
+
+#carousel_container::after {
+  right: 0;
+  top: 0;
+  transform: rotateZ(180deg);
+}
+
+#carousel_container::before {
+  left: 0;
+  top: 0;
+}
+
+#carousel_container .carousel_item {
+  animation: scroll 40s linear infinite;
+  display: flex;
+  /* width: calc(250px * 14); */
+}
+
+.carousel_item {
+  flex: 0 0 auto;
+  margin-right: 20px;
+  padding: 10px;
+  border: 1px solid #030303;
+  border-radius: 5px;
+  background-color: #ce0000cc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.873);
+  transition: transform 0.2s ease-in-out;
+  cursor: pointer;
+  width: 300px;
+}
+
+.carousel_item:hover {
+  transform: translateY(-5px);
+}
+
+.carousel_item_content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+}
+
+.carousel_item img {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.carousel_item h2 {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.carousel_item h3 {
+  font-size: 16px;
+  margin-bottom: 5px;
+  color: #1e0000f9;
+}
+
 #card, .seasons_card, .episodes_card {
   display: grid;
   justify-self: center;
   flex-wrap: wrap;
-  margin: 3%;
+  margin: 5% 10% 5% 10%;
   padding: 5%;
   width: 80%;
-  background-color: orange;
+  background-color: rgba(69, 69, 69, 0.636);
 }
 
 .episodes_card {
+  place-items:inherit;
+  text-align:start;
+  flex-wrap: wrap;
+  word-wrap: normal;
+}
+
+.faves {
   place-items:inherit;
   text-align:start;
   flex-wrap: wrap;
@@ -45,21 +204,6 @@
 
 .card > ::-webkit-scrollbar {
   display: inline;
-}
-
-
-
-@media only screen and (min-width: 600px) {
-  .card {
-    display: flex;
-    flex-direction: column;
-  }
-}
-
-@media screen and (min-width: 700px) (max-width: 1000px) {
-  .card {
-    display: grid;
-  }
 }
 
 .footer {
@@ -108,11 +252,179 @@
   overflow-x: hidden;
 }
 
-.modal-content > form > input, .modal-content > form > button{
-  background-color: yellow;
-  display:block;
-  width: 100%;
-  height: 100%;
-}
+/* 
+import { useState, useEffect } from "react";
+import ResponsiveGrid from "./DataSkeleton";
+import Seasons from "./Seasons";
+import BackToTop from "./BackToTop";
+//import supabase from "../config/supabaseClient";
+import "../App.css";
+import Loading from "./Loading";
+import supabase from "../config/supabaseClient";
+// import CarouselPreview from "./Carousel";
+// import SearchBar from "./SearchBar";
+
+export default function FetchAPI() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [datar, setData] = useState(null);
+  const [preview, setPreview] = useState("");
+  const [seasonRender, setSeasonRender] = useState(null);
+  const [episodesRender, setEpisodesRender] = useState(null);
+  const [isFavorited, setIsFavorited] = useState(false);
+  const [favoriteEpisodes, setFavoriteEpisodes] = useState([]);
+
+  
+  const getApi = () => {
+    fetch("https://podcast-api.netlify.app/shows")
+      .then((response) => response.json())
+
+      .then((data) => {
+        setData(data);
+        setIsLoading(false);
+
+        const mapData = data.map((item) => {
+           function showSeasons(id) {
+            if (id) {
+              fetch(`https://podcast-api.netlify.app/id/${id}`)
+                .then((res) => res.json())
+                .then((data) => {
+                  const seas = data.seasons;
+
+                  const seasM = seas.map((sm) => {
+                    return (
+                      <>
+                        <Seasons
+                          title={sm.title}
+                          episodes={sm.episodes.length}
+                          image={sm.image}
+                          clicked={() => EpsCards(sm)}
+                        />
+                      </>
+                    );
+                  });
+
+                  setSeasonRender(seasM);
+                });
+            }
+          }
+
+          function EpsCards({ epsItem, isFavorited, toggleFavorite }) {
+            const cardClass = isFavorited ? "faves_card" : "fetched_card";
+
+            return (
+              <div className={`episodes_card ${cardClass}`} key={epsItem.id}>
+                <h1>{epsItem.title}</h1>
+                <h3>Episode {epsItem.episode}</h3>
+                <button onClick={toggleFavorite}>
+                  {isFavorited ? "Remove from Faves" : "Add to Faves"}
+                </button>
+                <p>{epsItem.description}</p>
+                <audio controls className="audio_bar">
+                  <source src={epsItem.file} type="audio/ogg" />
+                </audio>
+              </div>
+            );
+
+            function displayEps({ fetched }) {
+              console.log(fetched);
+              const renderEps = fetched.episodes.map((epsItem) => {
+                const faveEps = favoriteEpisodes.some(
+                  (faveItem) => faveItem.id === epsItem.id
+                );
+
+                const eps = fetched.episodes.map((epsItem) => {
+                  const toggleFavorite = async () => {
+                    if (isFavorited) {
+                      const { data, error } = await supabase
+                        .from("Favorites")
+                        .delete()
+                        .eq("title", epsItem.title);
+
+                      if (!error) {
+                        setIsFavorited(false);
+                        console.log(data);
+                      }
+                    } else {
+                      const { data, error } = await supabase
+                        .from("Favorites")
+                        .insert({
+                          title: epsItem.title,
+                          file: epsItem.file,
+                        });
+
+                      if (!error) {
+                        setIsFavorited(true);
+                        console.log(data);
+                      }
+                    }
+
+                    console.log(isFavorited);
+                  };
+
+                  return (
+                    <EpsCards
+                      key={epsItem.id}
+                      epsItem={epsItem}
+                      isFavorited={faveEps}
+                      toggleFavorite={toggleFavorite}
+                    />
+                  );
+                });
+setEpisodesRender(eps)
+                return <>{renderEps}</>
+              });
+              
+            }
+
+            // setEpisodesRender(eps);
+          }
+
+          const handleSort = () => {
+            const sortedAZ = [...preview].sort((a, b) =>
+              a.title.localeCompare(b)
+            );
+            const sortedZA = [...preview].sort((a, b) => b - a);
+            setPreview(sortedAZ);
+            if (sortedAZ === true && event === true) {
+              setPreview(sortedZA);
+            }
+          };
+
+          
+          return (
+            <>
+              <>
+                <div id="card">
+                  <ResponsiveGrid
+                    handleSort={handleSort}
+                    key={item.id}
+                    {...item}
+                    clicked={() => showSeasons(item.id)}
+                  />
+                </div>
+                <BackToTop />
+              </>
+            </>
+          );
+        });
+
+        setPreview(mapData);
+      });
+  };
 
 
+  useEffect(() => {
+    getApi();
+    // setIsLoading(true);
+  });
+
+
+  return (
+    <>
+      {!isLoading ? episodesRender : <Loading />}{" "}
+      {!isLoading ? seasonRender : <Loading />}
+      {!isLoading ? <div key={preview.id}>{preview}</div> : <Loading />}
+    </>
+  );
+} */

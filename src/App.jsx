@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 // import AuthModal from "./components/AuthModal";
 import MainContent from "./components/MainContent";
 import supabase from "./config/supabaseClient";
-import { Auth } from "@supabase/auth-ui-react";
+// import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
+import AuthModal from "./components/AuthModal";
 // import SortBy from "./components/Sort";
 
 /**
@@ -14,8 +15,6 @@ import { ThemeSupa } from "@supabase/auth-ui-shared";
  * called. If the isAuthenticated state is true, it renders a MainContent component.
  */
 function App() {
-  console.log(supabase);
-
   const [user, setUser] = useState(null);
 
   /* The `useEffect` hook in this code is used to fetch the user session and set the `user` state variable accordingly. */
@@ -26,18 +25,19 @@ function App() {
     const unsubscribe = () =>
       supabase.auth.onAuthStateChange((event, session) => {
         switch (event) {
-          case "loggedIn":
+          case "SIGNED_IN":
             setUser(session?.user);
+            console.log(user);
 
             break;
-          case "loggedOut":
+          case "SIGNED_OUT":
             setUser(null);
         }
       });
 
-      return () => {
-        unsubscribe()
-      }
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   // const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -48,20 +48,43 @@ function App() {
   };
 
   const logout = async () => {
-    await supabase.auth.signOut()
-  }
+    await supabase.auth.signOut();
+  };
 
   return (
     <>
-     {user? ( <h1>Hello World</h1> ) : <button onClick={login}>Login</button>}
-     <button onClick={logout}>LogOut</button>
+      {user ? (
+        <>
+          <button onClick={logout}>LogOut</button>
+          <MainContent />
+        </>
+      ) : (
+        <div  className="home">
+          <div className="home_login" style={{ padding: "20% 30% 0% 30%" }}>
+            <h1 className="title" style={{ alignItems: "center" }}>
+              <img
+                className="logo_page"
+                src="./src/assets/penguin.svg"
+                width="60px"
+              />
+              La NiquáhCast
+            </h1>
+            <button
+              className="login"
+              style={{ justifyItems: "center" }}
+              onClick={login}
+            >
+              Login with GitHub
+            </button>
+            <AuthModal />
+          </div>
+        </div>
+      )}
     </>
   );
 }
 
 export default App;
-
-
 
 // export default function App() {
 //   const [user, setUser] = useState(null);
