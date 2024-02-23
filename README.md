@@ -2,6 +2,7 @@
 Project by Otshepeng Setuke - Podcast App
 
 ### Features:
+- User login and signup
 - Users can play podcast episodes
 - Users can sort episodes by genres, dates updated, seasons, favourites, etc.
 - Users can add episodes to favorites
