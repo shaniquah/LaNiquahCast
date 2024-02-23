@@ -1,8 +1,20 @@
-# React + Vite
+# Welcome to LaNiquáhCast!
+Project by Otshepeng Setuke - Podcast App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Features:
+- Users can play podcast episodes
+- Users can sort episodes by genres, dates updated, seasons, favourites, etc.
+- Users can add episodes to favorites
+- Users can search for episodes even without knowing the full name of the podcast using fuzzy search
+- Podcast recommendations for users with carrousel preview 
 
-Currently, two official plugins are available:
+### Tech Stack:
+For this project I used JavaScript and React, HTML and CSS technologies.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### How to use:
+Click on the [link]() to get started, you will be redirected to the homepage.
+
+Please note that this project is just a spoof at the moment and is only for basic functionality. Stay tuned for real podcast episodes on the web app soon!
+
+### Contact me:
+For collaborations or employment opportunities please don't hesitate to [reach out](or.setuke@gmail.com)
